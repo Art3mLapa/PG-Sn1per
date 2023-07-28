@@ -46,7 +46,7 @@ def generate_and_check_links():
         clear_console()
         menu()
         itemID = input(Fore.YELLOW + "Item(ID) > ")
-        random_number = generate_random_number(7, 8)
+        random_number = generate_random_number(7, 8) # minimum, maximum ID length
         profile_url = f"https://www.roblox.com/users/{random_number}/profile"
         if not check_profile_link(profile_url, random_number):
             continue
