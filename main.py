@@ -3,9 +3,6 @@ import requests
 import time
 import os
 from colorama import Fore, Style
-
-def clear_console():
-    os.system('cls' if os.name == 'nt' else 'clear')
     
 def generate_random_number(min_length, max_length):
     length = random.randint(min_length, max_length)
