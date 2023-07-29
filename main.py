@@ -2,7 +2,6 @@ import random
 import requests
 import time
 import os
-from colorama import Fore, Style
     
 def generate_random_number(min_length, max_length):
     length = random.randint(min_length, max_length)
@@ -16,6 +15,14 @@ def check_profile_link(profile_url, random_number):
     else:
         return True
 
+def get_item_name(item_id):
+    url = f"https://www.roblox.com/catalog/{item_id}/"
+    response = requests.get(url)
+    redirected_url = response.url
+    text_after_dash = redirected_url.split("/")[-1]
+    item_name = text_after_dash.replace("-", " ")
+    return item_name
+
 def check_inventory_link(inventory_url, random_number):
     response = requests.get(inventory_url)
     data = response.json()
@@ -27,9 +34,51 @@ def generate_and_check_links():
     with open("webhook.txt", "r") as file:
         webhook_url = file.read().strip()
         itemID = input("Item(ID) > ")
+        item_name = get_item_name(itemID)
+        age = int(input("Age account (2005-2016) > "))
+        if age < 2005 or age > 2014:
+            print("[X] Incorrent age")
+            return
         
+        if age == 2005:
+            min_length = 1
+            max_length = 3
+        elif age == 2006:
+            min_length = 3
+            max_length = 4
+        elif age == 2007:
+            min_length = 5
+            max_length = 5
+        elif age == 2008:
+            min_length = 6
+            max_length = 7
+        elif age == 2009:
+            min_length = 7
+            max_length = 7
+        elif age == 2010:
+            min_length = 7
+            max_length = 8
+        elif age == 2011:
+            min_length = 8
+            max_length = 8
+        elif age == 2012:
+            min_length = 8
+            max_length = 8
+        elif age == 2013:
+            min_length = 8
+            max_length = 9
+        elif age == 2014:
+            min_length = 9
+            max_length = 9
+        elif age == 2015:
+            min_length = 9
+            max_length = 10
+        elif age == 2016:
+            min_length = 10
+            max_length = 11
+            
     while True:
-        random_number = generate_random_number(8, 9)
+        random_number = generate_random_number(min_length, max_length)
         profile_url = f"https://www.roblox.com/users/{random_number}/profile"
         if not check_profile_link(profile_url, random_number):
             continue
@@ -39,15 +88,9 @@ def generate_and_check_links():
             continue
 
         webhook_data = {
-            "content": "Account Sniped!",
-            "embeds": [
-                {
-                    "title": random_number,
-                    "url": profile_url,
-                    "description": "PG Sniper webhook"
-                }
-            ]
+            "content": f"Account Sniped! {profile_url}, Item:**{item_name}**",
         }
+        
         response = requests.post(webhook_url, json=webhook_data)
         if response.status_code == 204:
             print(f"[!] Success! {random_number}")
