@@ -1,7 +1,6 @@
 import random
 import requests
 import time
-import os
     
 def generate_random_number(min_length, max_length):
     length = random.randint(min_length, max_length)
