@@ -37,6 +37,15 @@ def check_profile_link(profile_url, random_number):
 def generate_and_check_links():
     with open("webhook.txt", "r") as file:
         webhook_url = file.read().strip()
+        print('''
+        ______ _____       _____ _   _  __  ______ ___________   
+        | ___ \  __ \     /  ___| \ | |/  | | ___ \  ___| ___ \  
+        | |_/ / |  \/_____\ `--.|  \| |`| | | |_/ / |__ | |_/ /  
+        |  __/| | _|______|`--. \ . ` | | | |  __/|  __||    /   
+        | |   | |_\ \     /\__/ / |\  |_| |_| |   | |___| |\ \ _ 
+        \_|    \____/     \____/\_| \_/\___/\_|   \____/\_| \_(_)
+                                                         
+by art3mlapa. code is copyrighted                     1.7 VER.''')
         itemID = input("[#] Item(ID) > ")
         item_name = get_item_name(itemID)
         print(f"[!] Item for sniping: {item_name}")
