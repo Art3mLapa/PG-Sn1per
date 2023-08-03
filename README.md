@@ -7,3 +7,6 @@ https://github.com/Art3mLapa/PG-Sn1per./assets/76118653/7c8268f5-df68-4842-89f1-
 # Updates
 29.07.23
 Fixed Bugs, Added age setting for generated accounts - from 2005 to 2016. The setting changes the length of generated IDs
+
+03.08.23
+added the ability to snipe with bundles, minor fixes and updates
