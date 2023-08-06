@@ -10,3 +10,6 @@ Fixed Bugs, Added age setting for generated accounts - from 2005 to 2016. The se
 
 03.08.23
 added the ability to snipe with bundles, minor fixes and updates
+
+06.08.23
+Updated interface design and global update of the webhook with the necessary information about the account
