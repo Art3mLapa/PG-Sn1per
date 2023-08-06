@@ -2,6 +2,7 @@ import random
 import requests
 import time
 
+
 def generate_random_number(min_length, max_length):
     length = random.randint(min_length, max_length)
     return ''.join(str(random.randint(0, 9)) for _ in range(length))
@@ -33,7 +34,41 @@ def check_profile_link(profile_url, random_number):
     else:
         return True
 
-
+def get_thumbnail_url(profile_url):
+    url = (f'https://thumbnails.roblox.com/v1/users/avatar?userIds={profile_url}&size=250x250&format=Png&isCircular=true')
+    response = requests.get(url)
+    data = response.json()
+    thumbnail_url = data['data'][0]['imageUrl']
+    return thumbnail_url
+    
+def get_item_thumbnail(itemID):
+    if len(itemID) == 3:
+        url = f"https://thumbnails.roblox.com/v1/bundles/thumbnails?bundleIds={itemID}&size=150x150&format=Png&isCircular=false"
+    else:
+        url = f"https://thumbnails.roblox.com/v1/assets?assetIds={itemID}&returnPolicy=PlaceHolder&size=75x75&format=Png&isCircular=false"
+    response = requests.get(url)
+    data = response.json()
+    item_thumbnail = data['data'][0]['imageUrl']
+    return item_thumbnail
+    
+def get_last_online_date(random_number):
+    url = "https://presence.roblox.com/v1/presence/last-online"
+    payload = {
+        "userIds": [
+            random_number
+        ]
+    }
+    
+    response = requests.post(url, json=payload)
+    data = response.json()
+    last_online = data['lastOnlineTimestamps'][0]['lastOnline']
+    date = last_online[:10]
+    
+    year, month, day = date.split('-')
+    formatted_date = f"{year}-{month}-{day}"
+    
+    return formatted_date
+    
 def generate_and_check_links():
     with open("webhook.txt", "r") as file:
         webhook_url = file.read().strip()
@@ -45,7 +80,7 @@ def generate_and_check_links():
         | |   | |_\ \     /\__/ / |\  |_| |_| |   | |___| |\ \ _ 
         \_|    \____/     \____/\_| \_/\___/\_|   \____/\_| \_(_)
                                                          
-by art3mlapa. code is copyrighted                     1.7 VER.''')
+by art3mlapa.                                        1.9 VER.''')
         itemID = input("[#] Item(ID) > ")
         item_name = get_item_name(itemID)
         print(f"[!] Item for sniping: {item_name}")
@@ -96,21 +131,43 @@ by art3mlapa. code is copyrighted                     1.7 VER.''')
         profile_url = f"https://www.roblox.com/users/{random_number}/profile"
         if not check_profile_link(profile_url, random_number):
             continue
-        
+    
         if len(itemID) == 3:
             inventory_url = f"https://inventory.roblox.com/v1/users/{random_number}/items/3/{itemID}/is-owned"
         else:
             inventory_url = f"https://inventory.roblox.com/v1/users/{random_number}/items/0/{itemID}/is-owned"
-            
+        
         if not check_inventory_link(inventory_url, random_number):
             continue
 
-        return inventory_url
-
+        thumbnail_url = get_thumbnail_url(random_number)
+        item_thumbnail = get_item_thumbnail(itemID)
+        formatted_date = get_last_online_date(random_number)
+    
         webhook_data = {
-            "content": f"Account Sniped! Item:**{item_name}** {profile_url}"
+            "content": "",
+            "tts": False,
+            "embeds": [
+                {
+                    "id": 871818255,
+                    "description": f"\n|Item :**{item_name}**\n|{profile_url}\n|Last Online : {formatted_date}\n====================================",
+                    "fields": [],
+                    "title": "Account Sniped!",
+                    "color": 65325,
+                    "image": {
+                        "url": (thumbnail_url)
+                    },
+                    "footer": {
+                        "text": "https://github.com/Art3mLapa/PG-Sn1per. Best PG account sniper."
+                    },
+                    "thumbnail": {
+                        "url": (item_thumbnail)
+                    }
+                }
+            ],
+            "components": [],
+            "actions": {}
         }
-        
         response = requests.post(webhook_url, json=webhook_data)
         if response.status_code == 204:
             print(f"[!] Success! {random_number}")
