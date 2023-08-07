@@ -68,7 +68,19 @@ def get_last_online_date(random_number):
     formatted_date = f"{year}-{month}-{day}"
     
     return formatted_date
-    
+
+def get_user_info(random_number):
+    url = f"https://users.roblox.com/v1/users/{random_number}"
+    response = requests.get(url)
+    if response.status_code == 200:
+        data = response.json()
+        banned = data.get("isBanned", False)
+        verified = data.get("hasVerifiedBadge", False)
+        nickname = data.get("name", "")
+        return {"Banned": banned, "Verified": verified, "Nickname": nickname}
+    else:
+        return {}
+
 def generate_and_check_links():
     with open("webhook.txt", "r") as file:
         webhook_url = file.read().strip()
@@ -143,14 +155,17 @@ by art3mlapa.                                        1.9 VER.''')
         thumbnail_url = get_thumbnail_url(random_number)
         item_thumbnail = get_item_thumbnail(itemID)
         formatted_date = get_last_online_date(random_number)
-    
+        user_data = get_user_info(random_number)
+        banned = user_data.get("Banned", False)
+        verified = user_data.get("Verified", False)
+        nickname = user_data.get("Nickname", "")
         webhook_data = {
             "content": "",
             "tts": False,
             "embeds": [
                 {
                     "id": 871818255,
-                    "description": f"\n|Item :**{item_name}**\n|{profile_url}\n|Last Online : {formatted_date}\n====================================",
+                    "description": f"\n|Nickname : **{nickname}**\n|Profile : {profile_url}\n|Item : **{item_name}**\n=============INFORMATION=============\n|Banned : **{banned}**\n|Verified : **{verified}**\n|Last Online : **{formatted_date}**",
                     "fields": [],
                     "title": "Account Sniped!",
                     "color": 65325,
