@@ -1,7 +1,7 @@
 import random
 import requests
 import time
-
+from colorama import Fore, Back, Style
 
 def generate_random_number(min_length, max_length):
     length = random.randint(min_length, max_length)
@@ -74,12 +74,26 @@ def get_user_info(random_number):
     response = requests.get(url)
     if response.status_code == 200:
         data = response.json()
-        banned = data.get("isBanned", False)
-        verified = data.get("hasVerifiedBadge", False)
+        banned = data.get("isBanned")
+        verified = data.get("hasVerifiedBadge")
         nickname = data.get("name", "")
         return {"Banned": banned, "Verified": verified, "Nickname": nickname}
     else:
         return {}
+
+def get_followers(random_number):
+    url = f"https://friends.roblox.com/v1/users/{random_number}/followers/count"
+    response = requests.get(url)
+    data = response.json()
+    count = data["count"]
+    return count
+    
+def get_friends(random_number):
+    url = f"https://friends.roblox.com/v1/users/{random_number}/friends/count"
+    response = requests.get(url)
+    data = response.json()
+    friends = data["count"]
+    return friends
 
 def generate_and_check_links():
     with open("webhook.txt", "r") as file:
@@ -156,16 +170,19 @@ by art3mlapa.                                        1.9 VER.''')
         item_thumbnail = get_item_thumbnail(itemID)
         formatted_date = get_last_online_date(random_number)
         user_data = get_user_info(random_number)
-        banned = user_data.get("Banned", False)
-        verified = user_data.get("Verified", False)
+        banned = user_data.get("Banned")
+        verified = user_data.get("Verified")
         nickname = user_data.get("Nickname", "")
+        followers = get_followers(random_number)
+        friends = get_friends(random_number)
+        
         webhook_data = {
             "content": "",
             "tts": False,
             "embeds": [
                 {
                     "id": 871818255,
-                    "description": f"\n|Nickname : **{nickname}**\n|Profile : {profile_url}\n|Item : **{item_name}**\n=============INFORMATION=============\n|Banned : **{banned}**\n|Verified : **{verified}**\n|Last Online : **{formatted_date}**",
+                    "description": f"\n|Nickname : **{nickname}**\n|Profile : {profile_url}\n|Item : **{item_name}**\n=============INFORMATION=============\n|Banned : **{banned}**\n|Verified : **{verified}**\n|Last Online : **{formatted_date}**\n|Followers : **{followers}**\n|Friends : **{friends}**",
                     "fields": [],
                     "title": "Account Sniped!",
                     "color": 65325,
