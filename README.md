@@ -16,3 +16,7 @@ added the ability to snipe with bundles, minor fixes and updates
 06.08.23
 Updated interface design and global update of the webhook with the necessary information about the account
 ![image](https://github.com/Art3mLapa/PG-Sn1per./assets/76118653/ee10e7ba-d695-4264-9404-5e439ad26482)
+
+26.08.23
+More info for webhook (last online, RAP, hat limiteds, followers, friends, etc.)
+![image](https://github.com/Art3mLapa/PG-Sn1per./assets/76118653/dd2318e3-10f1-483a-a56f-c105979f3445)
