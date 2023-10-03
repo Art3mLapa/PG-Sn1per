@@ -5,7 +5,7 @@ in the future I plan to make another filter that will not let verified accounts 
 
 [![License: MPL 2.0](https://img.shields.io/badge/License-MPL_2.0-brightgreen.svg)](https://opensource.org/licenses/MPL-2.0)
 # Video-showcase
-https://github.com/Art3mLapa/PG-Sn1per./assets/76118653/1da11e25-b746-4534-bd74-5caf6077c4b7
+https://github.com/Art3mLapa/PG-Sn1per./assets/76118653/358af93b-4aaa-4d3c-8e41-b916b9b14262
 # Updates
 29.07.23
 Fixed Bugs, Added age setting for generated accounts - from 2005 to 2016. The setting changes the length of generated IDs
