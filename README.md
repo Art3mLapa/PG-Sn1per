@@ -1,7 +1,6 @@
 # PG-Sn1per.
-This is code for pging in roblox
-The code works on the principle of the pging method - a digital method, when short and random ids are entered into the profile link to find an old and light account. I automated the algorithm for finding such accounts and added a useful feature - a filter by items, to find rich accounts or accounts with the item you need.
-in the future I plan to make another filter that will not let verified accounts through, if this repo has 5 stars or more - then I will update the project and create new ones!
+This is a free roblox account scrapper, or in simple terms, a program that finds old accounts with your desired item.
+This program uses an automated and modified "ID surfing" method when a number is randomly generated, the existence of an account is checked - the number of followers (optional) and the presence of the desired thing. The program has a good configuration, open source, a clear interface and all this is free.
 
 [![License: MPL 2.0](https://img.shields.io/badge/License-MPL_2.0-brightgreen.svg)](https://opensource.org/licenses/MPL-2.0)
 # Video-showcase
