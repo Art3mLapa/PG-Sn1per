@@ -19,3 +19,7 @@ Updated interface design and global update of the webhook with the necessary inf
 26.08.23
 More info for webhook (last online, RAP, hat limiteds, followers, friends, etc.)
 ![image](https://github.com/Art3mLapa/PG-Sn1per./assets/76118653/dd2318e3-10f1-483a-a56f-c105979f3445)
+
+05.10.23
+updated embed message for webhook
+config system (new settings: follower_limit)
