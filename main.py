@@ -1,6 +1,7 @@
 import random
 import requests
 import time
+import json
 
 def generate_random_number(min_length, max_length):
     length = random.randint(min_length, max_length)
@@ -139,10 +140,15 @@ def get_friends(random_number):
     
     return friends
 
-
 def generate_and_check_links():
-    with open("webhook.txt", "r") as file:
-        webhook_url = file.read().strip()
+    with open('config.json', 'r') as config_file:
+        config = json.load(config_file)
+    
+        webhook_url = config['webhook']
+        account_age = config['account_age (2005-2016)']
+        itemId = config['ItemID']
+        follower_limit = config['follower_limit']
+
         print('''
         ______ _____       _____ _   _  __  ______ ___________   
         | ___ \  __ \     /  ___| \ | |/  | | ___ \  ___| ___ \  
@@ -151,14 +157,14 @@ def generate_and_check_links():
         | |   | |_\ \     /\__/ / |\  |_| |_| |   | |___| |\ \ _ 
         \_|    \____/     \____/\_| \_/\___/\_|   \____/\_| \_(_)
                                                          
-by art3mlapa.                                        3.2 VER.''')
-        itemID = input("[#] Item(ID) > ")
+        by art3mlapa.                                        4.0 VER.''')
+        itemID = itemId
         item_name = get_item_name(itemID)
         print(f"[!] Item for sniping: {item_name}")
-        age = int(input("[#] Age account (2005-2016) > "))
+        age = account_age
+        print(f"[!] Account age: {account_age}")
         if age < 2005 or age > 2016:
-            print("[X] Incorrent age")
-            return
+            print("[X] Incorrent age. Change config")
         
         if age == 2005:
             min_length = 2
@@ -196,11 +202,18 @@ by art3mlapa.                                        3.2 VER.''')
         elif age == 2016:
             min_length = 9
             max_length = 10
-            
+                    
+        print(f"[!] Follower Limit: {follower_limit}")
+        
     while True:
         random_number = generate_random_number(min_length, max_length)
         profile_url = f"https://www.roblox.com/users/{random_number}/profile"
         if not check_profile_link(profile_url, random_number):
+            continue
+            
+        followers = get_followers(random_number)
+        if follower_limit != 0 and followers > follower_limit:
+            print(f"[X] Too many followers ({followers} > {follower_limit}). {random_number}")
             continue
     
         if len(itemID) == 3:
@@ -216,7 +229,6 @@ by art3mlapa.                                        3.2 VER.''')
         formatted_date = get_last_online_date(random_number)
         name = get_user_name(random_number)
         friends = get_friends(random_number)
-        followers = get_followers(random_number)
         rap, limiteds_str = process_data(random_number)
         
         webhook_data = {
@@ -225,7 +237,7 @@ by art3mlapa.                                        3.2 VER.''')
             "embeds": [
                 {
                     "id": 871818255,
-                    "description": f"=============INFORMATION============\n|Nickname :**{name}**\n|Profile **{profile_url}**\n|Item :**{item_name}**\n|Last Online :**{formatted_date}**\n|Followers :**{followers}**\n|Friends :**{friends}**\n========INVENTORY INFORMATION========\n|RAP :**{rap}**\n|Other Limiteds : **{limiteds_str}**",
+                    "description": f"=============INFORMATION============\n|<:offsale:1156971012139782154> Nickname :**{name}**\n|<:offsale2:1156971166444032090> Profile **{profile_url}**\n|<:legit:1156971071342391316> Item :**{item_name}**\n|<:egg2014:1156971131203502131> Last Online :**{formatted_date}**\n|<:visor:1156968969027198997> Followers :**{followers}**\n|<:offsale3:1156978510234132500> Friends :**{friends}**\n========INVENTORY INFORMATION========\n|<:robux:1156968214438350858> RAP :**{rap}**\n|<:limited:1156968639010967622> Other Limiteds : **{limiteds_str}**",
                     "fields": [],
                     "title": "Account Sniped!",
                     "color": 65325,
@@ -233,7 +245,7 @@ by art3mlapa.                                        3.2 VER.''')
                         "url": (thumbnail_url)
                     },
                     "footer": {
-                        "text": "https://github.com/Art3mLapa/PG-Sn1per. Best PG account sniper."
+                        "text": "https://github.com/Art3mLapa/PG-Sn1per. Best free PG roblox scrapper."
                     },
                     "thumbnail": {
                         "url": (item_thumbnail)
