@@ -1,3 +1,8 @@
+# project is abandoned
+use the fixed version: https://github.com/SplitSplice/pg-sniper-fixed/blob/main/main.py
+
+Thanks a lot [SplitSplice](https://github.com/SplitSplice)
+
 # PG-Sn1per
 This is a free roblox account scrapper, or in simple terms, a program that finds old accounts with your desired item.
 This program uses an automated and modified "ID surfing" method when a number is randomly generated, the existence of an account is checked - the number of followers (optional) and the presence of the desired thing. The program has a good configuration, open source, a clear interface and all this is free.
